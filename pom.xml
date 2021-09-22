@@ -216,14 +216,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>com.google.protobuf</groupId>
-        <artifactId>protoc</artifactId>
-        <version>${protoc.version}</version>
-        <classifier>${os.detected.classifier}</classifier>
-        <type>exe</type>
-      </dependency>
-
       <!-- markdown -->
       <dependency>
         <groupId>com.vladsch.flexmark</groupId>
@@ -1481,6 +1473,9 @@
         <groupId>org.xolstice.maven.plugins</groupId>
         <artifactId>protobuf-maven-plugin</artifactId>
         <version>${plugin.protobuf.version}</version>
+        <configuration>
+          <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
+        </configuration>
       </plugin>
 
       <plugin>

@@ -58,14 +58,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protoc</artifactId>
-      <version>${protoc.version}</version>
-      <classifier>${os.detected.classifier}</classifier>
-      <type>exe</type>
-    </dependency>
-
-    <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-stub</artifactId>
       <version>${grpc.version}</version>

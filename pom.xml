@@ -220,6 +220,8 @@
         <groupId>com.google.protobuf</groupId>
         <artifactId>protoc</artifactId>
         <version>${protoc.version}</version>
+        <classifier>os.detected.classifier</classifier>
+        <type>exe</type>
       </dependency>
 
       <!-- markdown -->

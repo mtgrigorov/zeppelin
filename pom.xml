@@ -157,6 +157,7 @@
     <quartz.scheduler.version>2.3.2</quartz.scheduler.version>
     <jettison.version>1.4.0</jettison.version>
     <jsoup.version>1.13.1</jsoup.version>
+    <protobuf-java.version>3.5.0</protobuf-java.version>
 
     <!-- test library versions -->
     <junit.version>4.12</junit.version>
@@ -188,7 +189,7 @@
     <plugin.javadoc.version>3.2.0</plugin.javadoc.version>
     <plugin.jdeb.version>1.8</plugin.jdeb.version>
     <plugin.lifecycle.mapping.version>1.0.0</plugin.lifecycle.mapping.version>
-    <plugin.protobuf.version>0.5.0</plugin.protobuf.version>
+    <plugin.protobuf.version>0.6.1</plugin.protobuf.version>
     <plugin.rat.version>0.13</plugin.rat.version>
     <plugin.remote.resource.version>1.7.0</plugin.remote.resource.version>
     <plugin.resource.version>3.1.0</plugin.resource.version>
@@ -215,6 +216,12 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${protobuf.version}</version>
+      </dependency>
+
       <!-- markdown -->
       <dependency>
         <groupId>com.vladsch.flexmark</groupId>

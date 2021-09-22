@@ -157,7 +157,7 @@
     <quartz.scheduler.version>2.3.2</quartz.scheduler.version>
     <jettison.version>1.4.0</jettison.version>
     <jsoup.version>1.13.1</jsoup.version>
-    <protobuf-java.version>3.5.0</protobuf-java.version>
+    <protobuf-java.version>3.5.1</protobuf-java.version>
 
     <!-- test library versions -->
     <junit.version>4.12</junit.version>
@@ -1907,6 +1907,24 @@
         <curator.version>2.13.0</curator.version>
         <kerberos-client.version>2.0.0-M15</kerberos-client.version>
       </properties>
+    </profile>
+
+    <profile>
+      <id>linux-aarch64</id>
+      <activation>
+        <os>
+          <family>linux</family>
+          <arch>aarch64</arch>
+        </os>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>io.github.bzhaoopenstack</groupId>
+          <artifactId>protoc</artifactId>
+          <version>3.3.0</version>
+          <type>pom</type>
+        </dependency>
+      </dependencies>
     </profile>
 
   </profiles>

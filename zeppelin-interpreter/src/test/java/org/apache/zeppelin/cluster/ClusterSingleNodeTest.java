@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class ClusterSingleNodeTest {
   private static Logger LOGGER = LoggerFactory.getLogger(ClusterSingleNodeTest.class);
@@ -77,7 +77,7 @@ public class ClusterSingleNodeTest {
       }
     }
     Thread.sleep(3000);
-    assertEquals(true, clusterServer.isClusterLeader());
+    assertTrue(clusterServer.isClusterLeader());
     LOGGER.info("startCluster <<<");
   }
 
@@ -99,21 +99,21 @@ public class ClusterSingleNodeTest {
 
     // Get metadata for all services
     Object meta = clusterClient.getClusterMeta(ClusterMetaType.SERVER_META, "");
+    assertNotNull(meta);
     LOGGER.info(meta.toString());
 
     Object intpMeta = clusterClient.getClusterMeta(ClusterMetaType.INTP_PROCESS_META, "");
     LOGGER.info(intpMeta.toString());
 
-    assertNotNull(meta);
-    assertEquals(true, (meta instanceof HashMap));
+    assertTrue((meta instanceof HashMap));
     HashMap hashMap = (HashMap) meta;
 
     // Get metadata for the current service
     Object values = hashMap.get(clusterClient.getClusterNodeName());
-    assertEquals(true, (values instanceof HashMap));
+    assertTrue(values instanceof HashMap);
     HashMap mapMetaValues = (HashMap) values;
 
-    assertEquals(true, mapMetaValues.size()>0);
+    assertTrue(mapMetaValues.size()>0);
 
     LOGGER.info("getServerMeta <<<");
   }
@@ -142,6 +142,6 @@ public class ClusterSingleNodeTest {
 
     assertNotNull(check);
     assertNotNull(check.get(metaKey));
-    assertEquals(true, check.get(metaKey).size()>0);
+    assertTrue(check.get(metaKey).size() > 0);
   }
 }

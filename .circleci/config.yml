@@ -4,7 +4,7 @@ commands:
   build-common:
     steps:
       - checkout
-      
+
       - run:
           name: Install build tools
           command: |
@@ -31,4 +31,7 @@ workflows:
   version: 2
   run-build-and-tests:
     jobs:
-      - build-arm64
+      - build-arm64:
+        filters:
+          branches:
+            only: /.*/

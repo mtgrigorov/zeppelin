@@ -2,26 +2,9 @@ version: 2.1
 
 commands:
   build-common:
-    parameters:
-      hadoop_version:
-        # hadoop2 or hadoop3
-        type: string
     steps:
       - checkout
-
-      # Download and cache dependencies
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "requirements.txt" }}
-      #       # fallback to using the latest cache if no exact match is found
-      #       - v1-dependencies-
-
-      # - save_cache:
-      #     paths:
-      #       - ./venv
-      #     key: v1-dependencies-{{ checksum "requirements.txt" }}
-
-      # Revert to traditional pip install when build refactored, in the meantime:
+      
       - run:
           name: Install build tools
           command: |
@@ -42,8 +25,7 @@ jobs:
     working_directory: ~/zeppelin
 
     steps:
-      - build-common:
-          hadoop_version: "hadoop3"
+      - build-common
 
 workflows:
   version: 2

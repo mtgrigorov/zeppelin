@@ -39,7 +39,7 @@ task:
   
   delete_zeppelin_m2_script: rm -rf ~/.m2/repository/org/apache/zeppelin
   
-  install_requirements_script: DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true TZ=UTC sudo apt-get install -y --no-install-recommends wget
+  install_requirements_script: DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true TZ=UTC apt-get install -y --no-install-recommends wget
 
   install_interpreter_with_some_interpreters_script: mvn install -Pbuild-distr -DskipRat -DskipTests -pl zeppelin-server,zeppelin-web,spark-submit,spark/spark-dependencies,markdown,angular,shell -am -Phelium-dev -Pexamples -Phadoop3 --batch-mode --no-transfer-progress --fail-never
   

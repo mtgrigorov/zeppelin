@@ -27,5 +27,10 @@ task:
     SPARK_PRINT_LAUNCH_COMMAND: "true"
     SPARK_LOCAL_IP: "127.0.0.1"
     ZEPPELIN_LOCAL_IP: "127.0.0.1"
-
-  test_script: ./.cirrusci/scripts.sh
+  maven_cache:
+    folder: ~/.m2
+  all_in_one_script: ./.cirrusci/scripts.sh
+  always:
+    junit_artifacts:
+      path: "**/surefire-reports/**.xml"
+      format: junit

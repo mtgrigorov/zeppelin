@@ -5,6 +5,9 @@ lscpu
 java -version
 mvn -version
 
+echo "Delete ~/.m2/repository/org/apache/zeppelin"
+rm -rf ~/.m2/repository/org/apache/zeppelin
+
 echo "install application with some interpreter"
 mvn install -Pbuild-distr -DskipRat -DskipTests -pl zeppelin-server,zeppelin-web,spark-submit,spark/spark-dependencies,markdown,angular,shell -am -Phelium-dev -Pexamples -Phadoop3 --batch-mode --no-transfer-progress --fail-never
 

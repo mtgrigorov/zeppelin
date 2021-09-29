@@ -17,7 +17,8 @@
 # under the License.
 #
 
-test_task:
+task:
+  name: Test Zeppelin on CirrusCI Linux ARM64
   arm_container:
     image: 3.8.2-openjdk-8-slim
-  test_script: mvn install -Pbuild-distr -DskipRat -DskipTests -pl zeppelin-server,zeppelin-web,spark-submit,spark/spark-dependencies,markdown,angular,shell -am -Phelium-dev -Pexamples -Phadoop3 --batch-mode --no-transfer-progress --fail-never
+  test_script: ls -la

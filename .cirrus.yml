@@ -19,17 +19,34 @@
 
 task:
   name: Test Zeppelin on CirrusCI Linux ARM64
+
   arm_container:
     image: maven:3.8.2-openjdk-8-slim
+
   env:
     MAVEN_OPTS: "-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.http.retryHandler.count=3"
     ZEPPELIN_HELIUM_REGISTRY: helium
     SPARK_PRINT_LAUNCH_COMMAND: "true"
     SPARK_LOCAL_IP: "127.0.0.1"
     ZEPPELIN_LOCAL_IP: "127.0.0.1"
+
   maven_cache:
     folder: ~/.m2
-  all_in_one_script: ./.cirrusci/scripts.sh
+
+  lscpu_script: lscpu
+
+  java_mvn_versions_script: java -version && mvn --version
+  
+  delete_zeppelin_m2_script: rm -rf ~/.m2/repository/org/apache/zeppelin
+  
+  install_interpreter_with_some_interpreters_script: mvn install -Pbuild-distr -DskipRat -DskipTests -pl zeppelin-server,zeppelin-web,spark-submit,spark/spark-dependencies,markdown,angular,shell -am -Phelium-dev -Pexamples -Phadoop3 --batch-mode --no-transfer-progress --fail-never
+  
+  install_application_with_some_interpreter_script: mvn install -Pbuild-distr -DskipRat -DskipTests -pl zeppelin-server,zeppelin-web,spark-submit,spark/spark-dependencies,markdown,angular,shell -am -Phelium-dev -Pexamples -Phadoop3 --batch-mode --no-transfer-progress --fail-never
+  
+  install_and_test_plugins_script: mvn package -DskipRat -pl zeppelin-plugins,-org.apache.zeppelin:notebookrepo-mongo -amd -B
+
+  run_tests_with_hadoop3_script: mvn verify -Pusing-packaged-distr -DskipRat -pl zeppelin-server,zeppelin-web,spark-submit,spark/spark-dependencies,markdown,angular,shell -am -Phelium-dev -Pexamples -Phadoop3 -Dtests.to.exclude=**/org/apache/zeppelin/spark/* -DfailIfNoTests=false
+
   always:
     junit_artifacts:
       path: "**/surefire-reports/**.xml"

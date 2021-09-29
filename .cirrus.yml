@@ -20,5 +20,5 @@
 task:
   name: Test Zeppelin on CirrusCI Linux ARM64
   arm_container:
-    image: 3.8.2-openjdk-8-slim
+    image: maven:3.8.2-openjdk-8-slim
   test_script: ls -la

@@ -6,9 +6,22 @@ platform:
   os: linux
   arch: arm64
 
+clone:
+  depth: 50
+
+workspace:
+  path: /zeppelin
+
 steps:
 - name: build
-  image: ubuntu:20.04
+  image: maven:3.8.2-openjdk-8-slim
+  environment:
+    MAVEN_OPTS: "-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.http.retryHandler.count=3"
+    ZEPPELIN_HELIUM_REGISTRY: helium
+    SPARK_PRINT_LAUNCH_COMMAND: "true"
+    SPARK_LOCAL_IP: "127.0.0.1"
+    ZEPPELIN_LOCAL_IP: "127.0.0.1"
   commands:
+  - cat /etc/*release
   - lscpu
   - ls -la

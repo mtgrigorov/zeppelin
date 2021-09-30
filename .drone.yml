@@ -1,0 +1,13 @@
+kind: pipeline
+type: docker
+name: default
+
+platform:
+  os: linux
+  arch: ard64
+
+steps:
+- name: build
+  image: ubuntu:20.04
+  commands:
+  - ls -la

@@ -1259,7 +1259,7 @@
           <version>${plugin.scala.alchim31.version}</version>
           <configuration>
             <compileOrder>JavaThenScala</compileOrder>
-            <sendJavaToScalac>true</sendJavaToScalac>
+            <sendJavaToScalac>false</sendJavaToScalac>
             <scalaVersion>${scala.version}</scalaVersion>
             <args>
               <arg>-unchecked</arg>

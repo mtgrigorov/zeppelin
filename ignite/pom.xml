@@ -89,7 +89,7 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.scala-tools</groupId>
+        <groupId>net.alchim31.maven</groupId>
         <artifactId>maven-scala-plugin</artifactId>
         <configuration>
           <scalaVersion>${ignite.scala.version}</scalaVersion>

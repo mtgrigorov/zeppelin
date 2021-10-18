@@ -195,8 +195,7 @@
     <plugin.remote.resource.version>1.7.0</plugin.remote.resource.version>
     <plugin.resource.version>3.1.0</plugin.resource.version>
     <plugin.s3.upload.version>1.4</plugin.s3.upload.version>
-    <plugin.scala.alchim31.version>3.4.6</plugin.scala.alchim31.version>
-    <plugin.scala.tools.version>2.15.2</plugin.scala.tools.version>
+    <plugin.scala.alchim31.version>4.5.4</plugin.scala.alchim31.version>
     <plugin.scalate.version>1.7.1</plugin.scalate.version>
     <plugin.scalatest.version>2.0.0</plugin.scalatest.version>
     <plugin.scm.version>1.11.2</plugin.scm.version>
@@ -1503,12 +1502,6 @@
         <groupId>org.scalatra.scalate</groupId>
         <artifactId>maven-scalate-plugin_${scala.binary.version}</artifactId>
         <version>${plugin.scalate.version}</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.scala-tools</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
-        <version>${plugin.scala.tools.version}</version>
       </plugin>
 
       <plugin>

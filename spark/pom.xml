@@ -109,7 +109,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <scalaVersion>${scala.compile.version}</scalaVersion>
+                    <scalaVersion>${spark.scala.version}</scalaVersion>
                     <args>
                         <arg>-unchecked</arg>
                         <arg>-deprecation</arg>

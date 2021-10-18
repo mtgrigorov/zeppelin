@@ -128,7 +128,7 @@
 
       <plugin>
         <groupId>net.alchim31.maven</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
+        <artifactId>scala-maven-plugin</artifactId>
         <configuration>
           <scalaVersion>${scio.scala.version}</scalaVersion>
         </configuration>

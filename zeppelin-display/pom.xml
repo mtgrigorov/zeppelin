@@ -122,7 +122,7 @@
 
       <plugin>
         <groupId>net.alchim31.maven</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
+        <artifactId>scala-maven-plugin</artifactId>
         <executions>
           <execution>
             <id>compile</id>

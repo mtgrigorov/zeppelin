@@ -44,6 +44,7 @@
         <py4j.version>0.10.9</py4j.version>
         <spark.scala.version>2.12.7</spark.scala.version>
         <spark.scala.binary.version>2.12</spark.scala.binary.version>
+        <scala.version>${spark.scala.version}</scala.version>
 
         <spark.archive>spark-${spark.version}</spark.archive>
         <spark.src.download.url>

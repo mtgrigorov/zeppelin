@@ -39,6 +39,7 @@
     <guava.version>14.0.1</guava.version> <!-- update needed -->
     <scio.scala.version>${scala.2.10.version}</scio.scala.version>
     <scio.scala.binary.version>2.10</scio.scala.binary.version>
+    <scala.version>${scio.scala.version}</scala.version>
 
     <!--test library versions-->
     <hamcrest.all.version>1.3</hamcrest.all.version>
@@ -129,9 +130,6 @@
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
-        <configuration>
-          <scalaVersion>${scio.scala.version}</scalaVersion>
-        </configuration>
         <executions>
           <execution>
             <id>compile</id>

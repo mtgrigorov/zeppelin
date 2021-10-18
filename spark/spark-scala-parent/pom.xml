@@ -35,6 +35,7 @@
         <spark.version>2.4.5</spark.version>
         <spark.scala.binary.version>2.11</spark.scala.binary.version>
         <spark.scala.version>2.11.12</spark.scala.version>
+        <scala.version>${spark.scala.version}</scala.version>
         <spark.scala.compile.version>${spark.scala.binary.version}</spark.scala.compile.version>
     </properties>
 
@@ -224,26 +225,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <scalaVersion>${spark.scala.version}</scalaVersion>
-                    <args>
-                        <arg>-unchecked</arg>
-                        <arg>-deprecation</arg>
-                        <arg>-feature</arg>
-                    </args>
-                    <jvmArgs>
-                        <jvmArg>-Xms1024m</jvmArg>
-                        <jvmArg>-Xmx1024m</jvmArg>
-                        <jvmArg>-XX:MaxMetaspaceSize=${MaxMetaspace}</jvmArg>
-                    </jvmArgs>
-                    <javacArgs>
-                        <javacArg>-source</javacArg>
-                        <javacArg>${java.version}</javacArg>
-                        <javacArg>-target</javacArg>
-                        <javacArg>${java.version}</javacArg>
-                        <javacArg>-Xlint:all,-serial,-path,-options</javacArg>
-                    </javacArgs>
-                </configuration>
             </plugin>
 
             <plugin>

@@ -108,26 +108,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <scalaVersion>${spark.scala.version}</scalaVersion>
-                    <args>
-                        <arg>-unchecked</arg>
-                        <arg>-deprecation</arg>
-                        <arg>-feature</arg>
-                    </args>
-                    <jvmArgs>
-                        <jvmArg>-Xms1024m</jvmArg>
-                        <jvmArg>-Xmx1024m</jvmArg>
-                        <jvmArg>-XX:MaxMetaspaceSize=${MaxMetaspace}</jvmArg>
-                    </jvmArgs>
-                    <javacArgs>
-                        <javacArg>-source</javacArg>
-                        <javacArg>${java.version}</javacArg>
-                        <javacArg>-target</javacArg>
-                        <javacArg>${java.version}</javacArg>
-                        <javacArg>-Xlint:all,-serial,-path,-options</javacArg>
-                    </javacArgs>
-                </configuration>
             </plugin>
 
         </plugins>
@@ -145,6 +125,7 @@
             <properties>
                 <spark.scala.version>2.12.7</spark.scala.version>
                 <spark.scala.binary.version>2.12</spark.scala.binary.version>
+                <scala.version>${spark.scala.version}</scala.version>
             </properties>
         </profile>
 
@@ -153,6 +134,7 @@
             <properties>
                 <spark.scala.version>2.11.12</spark.scala.version>
                 <spark.scala.binary.version>2.11</spark.scala.binary.version>
+                <scala.version>${spark.scala.version}</scala.version>
             </properties>
         </profile>
 

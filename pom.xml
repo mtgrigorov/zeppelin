@@ -1257,6 +1257,10 @@
           <groupId>net.alchim31.maven</groupId>
           <artifactId>scala-maven-plugin</artifactId>
           <version>${plugin.scala.alchim31.version}</version>
+          <configuration>
+            <compileOrder>JavaThenScala</compileOrder>
+            <sendJavaToScalac>true</sendJavaToScalac>
+          </configuration>
         </plugin>
 
         <plugin>

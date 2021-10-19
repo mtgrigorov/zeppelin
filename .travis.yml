@@ -17,9 +17,10 @@
 
 os: linux
 dist: focal
-arch: arm64-graviton2
-group: edge
-virt: vm
+arch: arm64
+#arch: arm64-graviton2
+#group: edge
+#virt: vm
 language: generic
 sudo: false
 
@@ -173,45 +174,17 @@ matrix:
 
     # Run Spark integration test and unit test separately for each spark version
 
-    # ZeppelinSparkClusterTest24, SparkIntegrationTest24, JdbcIntegrationTest, Unit test of Spark 2.4
+    - name: "Spark 3.1 unit, integration and cluster tests"
+      sudo: required
+      env: PYTHON="2" SCALA_VER="2.11" PROFILE="-Pspark-3.1 -Pspark-scala-2.11 -Pscala-2.11 -Phadoop2 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest31,SparkIntegrationTest31,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
+
+    - name: "Spark 3.0 unit, integration and cluster tests"
+      sudo: required
+      env: PYTHON="2" SCALA_VER="2.11" PROFILE="-Pspark-3.0 -Pspark-scala-2.11 -Pscala-2.11 -Phadoop2 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest30,SparkIntegrationTest30,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
+
     - name: "Spark 2.4 unit, integration and cluster tests"
       sudo: required
       env: PYTHON="2" SCALA_VER="2.11" PROFILE="-Pspark-2.4 -Pspark-scala-2.11 -Pscala-2.11 -Phadoop2 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest24,SparkIntegrationTest24,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
-
-    # ZeppelinSparkClusterTest23, SparkIntegrationTest23, Unit test of Spark 2.3
-    - name: "Spark 2.3 unit, integration and cluster tests"
-      sudo: required
-      env: PYTHON="2" SCALA_VER="2.11" PROFILE="-Pspark-2.3 -Pspark-scala-2.11 -Pscala-2.11 -Phadoop2 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest23,SparkIntegrationTest23,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
-
-    # ZeppelinSparkClusterTest22, SparkIntegrationTest22, Unit test of Spark 2.2
-    - name: "Spark 2.2 unit, integration and cluster tests"
-      sudo: required
-      env: PYTHON="3" SCALA_VER="2.10" PROFILE="-Pspark-2.2 -Pspark-scala-2.10 -Pscala-2.10 -Phadoop2 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest22,SparkIntegrationTest22,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
-
-    # ZeppelinSparkClusterTest21, SparkIntegrationTest21, Unit test of Spark 2.1
-    - name: "Spark 2.1 unit, integration and cluster tests"
-      sudo: required
-      env: PYTHON="3" SCALA_VER="2.10" PROFILE="-Pspark-2.1 -Phadoop2 -Pspark-scala-2.10 -Pscala-2.10 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest21,SparkIntegrationTest21,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
-
-    # ZeppelinSparkClusterTest20, SparkIntegrationTest20, Unit test of Spark 2.0
-    - name: "Spark 2.0 unit, integration and cluster tests"
-      sudo: required
-      env: PYTHON="3" SCALA_VER="2.10" PROFILE="-Pspark-2.0 -Phadoop2 -Pspark-scala-2.10 -Pscala-2.10 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest20,SparkIntegrationTest20,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
-
-    # ZeppelinSparkClusterTest16, SparkIntegrationTest16, Unit test of Spark 1.6
-    - name: "Spark 1.6 unit, integration and cluster tests"
-      sudo: required
-      env: PYTHON="3" SCALA_VER="2.10" PROFILE="-Pspark-1.6 -Phadoop2 -Pspark-scala-2.10 -Pscala-2.10 -Pintegration" SPARKR="true" BUILD_FLAG="install -DskipTests -DskipRat -am" TEST_FLAG="test -DskipRat -am" MODULES="-pl zeppelin-server,zeppelin-web,spark/interpreter,spark/spark-dependencies" TEST_PROJECTS="-Dtest=ZeppelinSparkClusterTest16,SparkIntegrationTest16,org.apache.zeppelin.spark.* -DfailIfNoTests=false"
-
-      # Test python/pyspark with python 2, livy 0.5
-    - name: "PySpark 1.6.3 with Python 2, Livy 0.5"
-      sudo: required
-      env: PYTHON="2" SPARK_VER="1.6.3" HADOOP_VER="2.6" LIVY_VER="0.5.0-incubating" PROFILE="" BUILD_FLAG="install -am -DskipTests -DskipRat" TEST_FLAG="verify -DskipRat" MODULES="-pl livy" TEST_PROJECTS=""
-
-    # Test livy 0.5 with spark 2.2.0 under python3
-    - name: "PySpark 2.2.0 with Python 3, Livy 0.5"
-      sudo: required
-      env: PYTHON="3" SPARK_VER="2.2.0" HADOOP_VER="2.6" LIVY_VER="0.5.0-incubating" PROFILE="" BUILD_FLAG="install -am -DskipTests -DskipRat" TEST_FLAG="verify -DskipRat" MODULES="-pl livy" TEST_PROJECTS=""
 
 before_install:
   # check files included in commit range, clear bower_components if a bower.json file has changed.

@@ -97,8 +97,6 @@ matrix:
             - xvfb
             - wget
             - openjdk-8-jdk
-            - maven
-
       before_install:
         - export PYTHON=3
         - export SPARK_VER="2.1.0"
@@ -130,7 +128,6 @@ matrix:
             - xvfb
             - wget
             - openjdk-8-jdk
-            - maven
       before_install:
         - echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.defaultLogLevel=warn'" >> ~/.mavenrc
       install:
@@ -149,8 +146,6 @@ matrix:
     # After issues are fixed these tests need to be included back by removing them from the "-Dtests.to.exclude" property
     - name: "Core modules"
       install:
-        - echo "Make IRkernel available to Jupyter"
-        - R -e "IRkernel::installspec()"
         - echo "install environment"
         - ./mvnw install -DskipTests -DskipRat -pl zeppelin-interpreter-integration,jdbc,zeppelin-web,spark-submit,spark/spark-dependencies,markdown -am -Pspark-2.4 -Pspark-scala-2.11 -Phadoop2 -Pintegration -B
         - ./mvnw clean package -pl zeppelin-plugins -amd -DskipTests -B
@@ -170,12 +165,11 @@ matrix:
             - xvfb
             - wget
             - openjdk-8-jdk
-            - maven
       env: CI="true" PYTHON="2" SCALA_VER="2.10" SPARK_VER="1.6.3" HADOOP_VER="2.6" PROFILE="-Pspark-1.6 -Pspark-scala-2.10 -Pscala-2.10 -Phadoop2 -Phadoop-2.6 -Phelium-dev -Pexamples -Pintegration" BUILD_FLAG="install -DskipTests -DskipRat" TEST_FLAG="verify -DskipRat" TEST_PROJECTS="-pl .,zeppelin-integration -DfailIfNoTests=false"
 
     # Test interpreter modules
     - name: "Test interpreter modules"
-      env: PYTHON="3" SCALA_VER="2.10" PROFILE="-Pscalding" BUILD_FLAG="package -DskipTests -DskipRat -Pr" TEST_FLAG="test -DskipRat" MODULES="-pl $(echo .,zeppelin-interpreter,${INTERPRETERS} | sed 's/!//g')" TEST_PROJECTS=""
+      env: PYTHON="3" SCALA_VER="2.10" BUILD_FLAG="package -DskipTests -DskipRat -Pr" TEST_FLAG="test -DskipRat" MODULES="-pl $(echo .,zeppelin-common,zeppelin-interpreter,zeppelin-interpreter-shaded,${INTERPRETERS} | sed 's/!//g')" TEST_PROJECTS=""
 
     # Run Spark integration test and unit test separately for each spark version
 
@@ -228,7 +222,7 @@ before_install:
   - gitlog=$(git log $TRAVIS_COMMIT_RANGE 2>/dev/null) || gitlog=""
   - clearcache=$(echo $gitlog | grep -c -E "clear bower|bower clear" || true)
   - if [ "$hasbowerchanged" -gt 0 ] || [ "$clearcache" -gt 0 ]; then echo "Clearing bower_components cache"; rm -r zeppelin-web/bower_components; npm cache verify; else echo "Using cached bower_components."; fi
-  - echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxPermSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.defaultLogLevel=warn'" >> ~/.mavenrc
+  - echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.defaultLogLevel=warn'" >> ~/.mavenrc
   - ls -la .spark-dist ${HOME}/.m2/repository/.cache/maven-download-plugin || true
   - ls .node_modules && cp -r .node_modules zeppelin-web/node_modules || echo "node_modules are not cached"
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1600x1024x16"
@@ -239,7 +233,7 @@ before_install:
   - ./mvnw -version
 
 install:
-  - echo "mvn $BUILD_FLAG $MODULES $PROFILE -B"
+  - echo "./mvnw $BUILD_FLAG $MODULES $PROFILE -B"
   - ./mvnw $BUILD_FLAG $MODULES $PROFILE -B
 
 before_script:
@@ -256,11 +250,11 @@ before_script:
   # https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
   - if [[ -n $TEST_MODULES ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3; fi
   # display info log for debugging
-  - if [[ -n $TEST_MODULES ]]; then echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxPermSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.defaultLogLevel=info'" > ~/.mavenrc; fi
+  - if [[ -n $TEST_MODULES ]]; then echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.defaultLogLevel=info'" > ~/.mavenrc; fi
 
 script:
   - if [[ -n $TEST_MODULES ]]; then export MODULES="${TEST_MODULES}"; fi
-  - echo "mvn $TEST_FLAG $MODULES $PROFILE -B $TEST_PROJECTS"
+  - echo "./mvnw $TEST_FLAG $MODULES $PROFILE -B $TEST_PROJECTS"
   - ./mvnw $TEST_FLAG $MODULES $PROFILE -B $TEST_PROJECTS
 
 after_success:

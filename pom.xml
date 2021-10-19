@@ -1258,9 +1258,9 @@
           <artifactId>scala-maven-plugin</artifactId>
           <version>${plugin.scala.alchim31.version}</version>
           <configuration>
-            <compileOrder>JavaThenScala</compileOrder>
-            <sendJavaToScalac>false</sendJavaToScalac>
             <scalaVersion>${scala.version}</scalaVersion>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
             <args>
               <arg>-unchecked</arg>
               <arg>-deprecation</arg>

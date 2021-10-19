@@ -48,7 +48,6 @@ addons:
       - xvfb
       - wget
       - openjdk-8-jdk
-      - maven
 
 env:
   global:
@@ -65,27 +64,27 @@ matrix:
       before_install:
         - echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit'" >> ~/.mavenrc
       install:
-        - mvn clean -Prat -B
+        - ./mvnw clean -Prat -B
       before_script:
         - echo "export ZEPPELIN_HELIUM_REGISTRY=helium" >> conf/zeppelin-env.sh
         - echo "export SPARK_PRINT_LAUNCH_COMMAND=true" >> conf/zeppelin-env.sh
         - export SPARK_PRINT_LAUNCH_COMMAND=true
         - tail conf/zeppelin-env.sh
       script:
-        - mvn org.apache.rat:apache-rat-plugin:check -Prat -B
+        - ./mvnw org.apache.rat:apache-rat-plugin:check -Prat -B
 
     - name: "Default build command, no tests"
       before_install:
         - echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.defaultLogLevel=warn'" >> ~/.mavenrc
       install:
-        - mvn clean package -T C2 -DskipTests -Pweb-angular -B
+        - ./mvnw clean package -T C2 -DskipTests -Pweb-angular -B
       before_script:
         - echo "export ZEPPELIN_HELIUM_REGISTRY=helium" >> conf/zeppelin-env.sh
         - echo "export SPARK_PRINT_LAUNCH_COMMAND=true" >> conf/zeppelin-env.sh
         - export SPARK_PRINT_LAUNCH_COMMAND=true
         - tail conf/zeppelin-env.sh
       script:
-        - mvn test -DskipTests -Pweb-angular -B
+        - ./mvnw test -DskipTests -Pweb-angular -B
 
     - name: "Run e2e tests in zeppelin-web"
       addons:
@@ -108,7 +107,7 @@ matrix:
         - bash -x ./testing/install_external_dependencies.sh
         - source ~/.environ
       install:
-        - mvn install -DskipTests -DskipRat -pl ${INTERPRETERS} -Phadoop2 -Pscala-2.11 -B
+        - ./mvnw install -DskipTests -DskipRat -pl ${INTERPRETERS} -Phadoop2 -Pscala-2.11 -B
       before_script:
         - travis_retry ./testing/downloadSpark.sh $SPARK_VER $HADOOP_VER
         - export SPARK_HOME=`pwd`/spark-$SPARK_VER-bin-hadoop$HADOOP_VER
@@ -118,7 +117,7 @@ matrix:
         - export SPARK_PRINT_LAUNCH_COMMAND=true
         - tail conf/zeppelin-env.sh
       script:
-        - mvn verify -DskipRat -pl zeppelin-web -Phadoop2 -Pscala-2.11 -B -Pweb-e2e
+        - ./mvnw verify -DskipRat -pl zeppelin-web -Phadoop2 -Pscala-2.11 -B -Pweb-e2e
 
     - name: "Run tests in zeppelin-web-angular"
       addons:
@@ -135,21 +134,29 @@ matrix:
       before_install:
         - echo "MAVEN_OPTS='-Xms1024M -Xmx2048M -XX:MaxMetaspaceSize=1024m -XX:-UseGCOverheadLimit -Dorg.slf4j.simpleLogger.defaultLogLevel=warn'" >> ~/.mavenrc
       install:
-        - mvn clean -DskipTests -DskipRat -pl ${INTERPRETERS} -B
+        - ./mvnw clean -DskipTests -DskipRat -pl ${INTERPRETERS} -B
       before_script:
         - echo "export ZEPPELIN_HELIUM_REGISTRY=helium" >> conf/zeppelin-env.sh
         - echo "export SPARK_PRINT_LAUNCH_COMMAND=true" >> conf/zeppelin-env.sh
         - export SPARK_PRINT_LAUNCH_COMMAND=true
         - tail conf/zeppelin-env.sh
       script:
-        - mvn package -DskipRat -pl zeppelin-web-angular -Pweb-angular -B
+        - ./mvnw package -DskipRat -pl zeppelin-web-angular -Pweb-angular -B
 
     # Test core modules
     # Several tests were excluded from this configuration due to the following issues:
     # HeliumApplicationFactoryTest - https://issues.apache.org/jira/browse/ZEPPELIN-2470
     # After issues are fixed these tests need to be included back by removing them from the "-Dtests.to.exclude" property
     - name: "Core modules"
-      env: PYTHON="3" SPARKR="true" PROFILE="-Pspark-2.2 -Pscalding -Phelium-dev -Pexamples -Pspark-scala-2.11 -Pscala-2.11" BUILD_FLAG="package -Pbuild-distr -DskipRat" TEST_FLAG="verify -Pusing-packaged-distr -DskipRat" MODULES="-pl ${INTERPRETERS}" TEST_PROJECTS="-Dtests.to.exclude=**/SparkIntegrationTest.java,**/ZeppelinSparkClusterTest.java,**/org/apache/zeppelin/spark/*,**/HeliumApplicationFactoryTest.java -DfailIfNoTests=false"
+      install:
+        - echo "Make IRkernel available to Jupyter"
+        - R -e "IRkernel::installspec()"
+        - echo "install environment"
+        - ./mvnw install -DskipTests -DskipRat -pl zeppelin-interpreter-integration,jdbc,zeppelin-web,spark-submit,spark/spark-dependencies,markdown -am -Pspark-2.4 -Pspark-scala-2.11 -Phadoop2 -Pintegration -B
+        - ./mvnw clean package -pl zeppelin-plugins -amd -DskipTests -B
+      script:
+        - echo "run tests"
+        - ./mvnw test -DskipRat -pl zeppelin-interpreter-integration,jdbc,zeppelin-web,spark-submit,spark/spark-dependencies,markdown -am -Pspark-2.4 -Pspark-scala-2.11 -Phadoop2 -Pintegration -B -Dtest=JdbcIntegrationTest,org.apache.zeppelin.spark.*,org.apache.zeppelin.kotlin.* -DfailIfNoTests=false
 
     # Test selenium with spark module for 1.6.3
     - name: "Selenium with Spark 1.6.3"
@@ -229,11 +236,11 @@ before_install:
   - export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-${TRAVIS_CPU_ARCH}"
   - export PATH="$JAVA_HOME/bin:$PATH"
   - java -version
-  - mvn -version
+  - ./mvnw -version
 
 install:
   - echo "mvn $BUILD_FLAG $MODULES $PROFILE -B"
-  - mvn $BUILD_FLAG $MODULES $PROFILE -B
+  - ./mvnw $BUILD_FLAG $MODULES $PROFILE -B
 
 before_script:
   - if [[ -n $SPARK_VER ]]; then travis_retry ./testing/downloadSpark.sh $SPARK_VER $HADOOP_VER; fi
@@ -254,7 +261,7 @@ before_script:
 script:
   - if [[ -n $TEST_MODULES ]]; then export MODULES="${TEST_MODULES}"; fi
   - echo "mvn $TEST_FLAG $MODULES $PROFILE -B $TEST_PROJECTS"
-  - mvn $TEST_FLAG $MODULES $PROFILE -B $TEST_PROJECTS
+  - ./mvnw $TEST_FLAG $MODULES $PROFILE -B $TEST_PROJECTS
 
 after_success:
   - echo "Travis exited with ${TRAVIS_TEST_RESULT}"

@@ -130,6 +130,10 @@
           <artifactId>commons-httpclient</artifactId>
         </exclusion>
         <exclusion>
+          <groupId>commons-beanutils</groupId>
+          <artifactId>commons-beanutils-core</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>org.apache.zookeeper</groupId>
           <artifactId>zookeeper</artifactId>
         </exclusion>
@@ -278,6 +282,10 @@
               <artifactId>commons-httpclient</artifactId>
             </exclusion>
             <exclusion>
+              <groupId>commons-beanutils</groupId>
+              <artifactId>commons-beanutils-core</artifactId>
+            </exclusion>
+            <exclusion>
               <groupId>org.apache.zookeeper</groupId>
               <artifactId>zookeeper</artifactId>
             </exclusion>
@@ -337,6 +345,10 @@
             <exclusion>
               <groupId>commons-httpclient</groupId>
               <artifactId>commons-httpclient</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>commons-beanutils</groupId>
+              <artifactId>commons-beanutils-core</artifactId>
             </exclusion>
             <exclusion>
               <groupId>org.apache.zookeeper</groupId>

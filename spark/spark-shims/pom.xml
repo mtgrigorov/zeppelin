@@ -48,6 +48,12 @@
       <artifactId>hadoop-common</artifactId>
       <version>${hadoop2.6.version}</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-beanutils</groupId>
+          <artifactId>commons-beanutils-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
